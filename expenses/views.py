@@ -10,7 +10,7 @@ from .reports import summary_per_category
 
 class ExpenseListView(ListView):
     model = Expense
-    paginate_by = 5
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=None, **kwargs):
         queryset = object_list if object_list is not None else self.object_list
@@ -25,7 +25,8 @@ class ExpenseListView(ListView):
             date_to = form.data.get('date_to')
             amount_min = form.data.get('amount_min')
             amount_max = form.data.get('amount_max')
-            
+            select = form.data.get('select')
+
 
 
 
@@ -41,7 +42,8 @@ class ExpenseListView(ListView):
                 queryset = queryset.filter(amount__gte=amount_min)
             if amount_max:
                 queryset = queryset.filter(amount__lte=amount_max)            
-
+            if select:
+                queryset = queryset.order_by(select)
 
             return super().get_context_data(
             form=form,

@@ -6,7 +6,15 @@
 
 <form method="get" action="">
   {{form.as_p}}
-  
+  Sort by: 
+  <select name="select">
+	<option value="date">Date asc</option>
+	<option value="-date">Date desc</option>
+	<option value="amount">Amount asc</option>
+	<option value="-amount">Amount desc</option>
+	</select>	
+
+  <br><br>
   Date from: <input type="date" name="date_from">&nbsp;Date to: <input type="date" name="date_to"><br>
   Amount min: <input type="number" name="amount_min">&nbsp;Amount max: <input type="number" name="amount_max"><br>
   <button type="submit">search</button>&nbsp;<button type="reset">Clear</button>
