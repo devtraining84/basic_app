@@ -6,9 +6,13 @@
 
 <form method="get" action="">
   {{form.as_p}}
-  <button type="submit">search</button>
+  
+  Date from: <input type="date" name="date_from">&nbsp;Date to: <input type="date" name="date_to"><br>
+  Amount min: <input type="number" name="amount_min">&nbsp;Amount max: <input type="number" name="amount_max"><br>
+  <button type="submit">search</button>&nbsp;<button type="reset">Clear</button>
 </form>
-<br>
+<hr>
+
 <table border="1">
 	<caption>Expenses</caption>
 	<thead>
