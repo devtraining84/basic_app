@@ -1,3 +1,4 @@
+from datetime import date
 from django.views.generic.list import ListView
 
 from .forms import ExpenseSearchForm
@@ -15,9 +16,11 @@ class ExpenseListView(ListView):
         form = ExpenseSearchForm(self.request.GET)
         if form.is_valid():
             name = form.cleaned_data.get('name', '').strip()
+            date_form = form.cleaned_data.get('date', '')
             if name:
                 queryset = queryset.filter(name__icontains=name)
-
+            if date_form:
+                queryset = queryset.filter(date__icontains=date_form)
         return super().get_context_data(
             form=form,
             object_list=queryset,
