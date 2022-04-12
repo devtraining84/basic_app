@@ -1,3 +1,4 @@
+from calendar import month
 from datetime import date
 from unicodedata import category
 from urllib import request
@@ -13,13 +14,17 @@ from django.db.models import Sum
 
 class ExpenseListView(ListView):
     model = Expense
-    paginate_by = 15
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         queryset = object_list if object_list is not None else self.object_list
         form = ExpenseSearchForm(self.request.GET)
+        queryset2 = None
+        
         sum = queryset.aggregate(Sum('amount')).get('amount__sum') 
         
+        
+               
         
         if form.is_valid():
             name = form.cleaned_data.get('name', '').strip()
@@ -29,6 +34,7 @@ class ExpenseListView(ListView):
             amount_min = form.data.get('amount_min')
             amount_max = form.data.get('amount_max')
             select = form.data.get('select')
+            month_year = form.data.get('month_year')
 
             if name:
                 queryset = queryset.filter(name__icontains=name)
@@ -44,16 +50,19 @@ class ExpenseListView(ListView):
                 queryset = queryset.filter(amount__lte=amount_max)            
             if select:
                 queryset = queryset.order_by(select)
-            
-            
+            if month_year:
+                queryset2 = Expense.objects.filter(date__contains=month_year)
+                sum2 = queryset2.aggregate(Sum('amount')).get('amount__sum') 
             
             
             
             return super().get_context_data(
             form=form,
             object_list=queryset,
+            object_list2=queryset2,
             sum = sum,
-            summary_per_category=summary_per_category(queryset),
+            sum2=sum2,
+            summary_per_category = summary_per_category(queryset),
             **kwargs)
 
 class CategoryListView(ListView):
