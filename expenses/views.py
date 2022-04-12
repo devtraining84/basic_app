@@ -2,7 +2,7 @@ from calendar import month
 from datetime import date
 from unicodedata import category
 from urllib import request
-from django.views.generic.list import ListView
+from django.views.generic import ListView, UpdateView
 
 from .forms import ExpenseSearchForm
 from .models import Expense, Category
@@ -22,7 +22,8 @@ class ExpenseListView(ListView):
         queryset2 = None
         
         sum = queryset.aggregate(Sum('amount')).get('amount__sum') 
-        
+        queryset2 = None
+        sum2 = None
         
                
         
@@ -35,6 +36,8 @@ class ExpenseListView(ListView):
             amount_max = form.data.get('amount_max')
             select = form.data.get('select')
             month_year = form.data.get('month_year')
+            
+            
 
             if name:
                 queryset = queryset.filter(name__icontains=name)
@@ -70,8 +73,9 @@ class CategoryListView(ListView):
     paginate_by = 5
 
 
-
-    
-
+class CategoryUpdateView(UpdateView):
+    model = Category
+    fields = '__all__'
+    template_name_suffix = '_update_form'
 
 
