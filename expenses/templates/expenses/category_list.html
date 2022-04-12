@@ -6,6 +6,7 @@
 <table border="1">
 	<thead>
 		<tr>
+			<th>id</th>
 			<th>name</th>
 			<th>actions</th>
 		</tr>
@@ -14,10 +15,14 @@
 		{% for obj in object_list %}
 		<tr>
 			<td>
+				{{obj.id}}
+			</td>
+			<td>
 				{{obj.name}}
 			</td>
 			<td>
 				<a href="{% url 'expenses:category-delete' obj.id %}">delete</a>
+				<a href="{% url 'expenses:category-edit' obj.id %}">edit</a>
 			</td>
 		</tr>
 		{% endfor %}
