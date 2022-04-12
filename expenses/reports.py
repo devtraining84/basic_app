@@ -14,3 +14,11 @@ def summary_per_category(queryset):
         .values_list('category_name', 's')
     ))
 
+def summary_per_mount_year(date):
+    return OrderedDict(sorted(
+    date
+    .annotate   
+
+
+    )
+    )
