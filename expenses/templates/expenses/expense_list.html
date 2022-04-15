@@ -6,9 +6,28 @@
 
 <form method="get" action="">
   {{form.as_p}}
-  <button type="submit">search</button>
+  Sort by: 
+  <select name="select">
+	<option value="date">Date asc</option>
+	<option value="-date">Date desc</option>
+	<option value="amount">Amount asc</option>
+	<option value="-amount">Amount desc</option>
+	</select>	
+
+  <br><br>
+  Date from: <input type="date" name="date_from">&nbsp;Date to: <input type="date" name="date_to"><br>
+  Amount min: <input type="number" name="amount_min">&nbsp;Amount max: <input type="number" name="amount_max"><br>
+  <br>
+  <label>Table with total summary per year-month:</label>&nbsp;
+	<input type="month" name="month_year"
+	min="2000-01" value="2022-03">
+	
+
+<hr>
+  <button type="submit">search</button>&nbsp;<button type="reset">Clear</button>
 </form>
-<br>
+<hr>
+
 <table border="1">
 	<caption>Expenses</caption>
 	<thead>
@@ -56,4 +75,41 @@
 	{% endfor %}
   </tr>
 </table>
+<b><font color="red">Total amount sum spent: {{sum|floatformat:2}}</b>
+<hr></font>
+
+<table border="1">
+	<caption>Table with total summary per month</caption>
+	<thead>
+	  <tr>
+		<th>no.</th>
+		<th>category</th>
+		<th>name</th>
+		<th>amount</th>
+		<th>date</th>
+		</tr>
+	</thead>
+	<tbody>
+
+{% for obj in object_list2 %}
+	  <tr>
+		<td>{{ page_obj.start_index|add:forloop.counter0 }}.</td>
+		<td>{{ obj.category|default:"-" }}</td>
+		<td>{{ obj.name|default:"-" }}</td>
+		<td>{{ obj.amount|floatformat:2 }}</td>
+		<td>{{obj.date}}</td>
+		
+	  </tr>
+	  {% empty %}
+	  <tr>
+		<td colspan="5">no items</td>
+	  </tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+<b><font color="red">Total amount per month: {{sum2|floatformat:2}}</b>
+	<hr></font>
+	
+
 {% endblock %}

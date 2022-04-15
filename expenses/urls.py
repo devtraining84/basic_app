@@ -35,6 +35,15 @@ urlpatterns = [
     path('category/list/',
          CategoryListView.as_view(),
          name='category-list'),
+
+    path('category/<int:pk>/edit/',
+         UpdateView.as_view(
+            model=Category,
+            fields='__all__',
+            success_url=reverse_lazy('expenses:category-list'),
+            template_name='generic_update.html'
+         ),
+         name='category-edit'),     
     path('category/create/',
          CreateView.as_view(
             model=Category,
